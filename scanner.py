@@ -37,6 +37,8 @@ def scan_file(filepath):
         print(output)
     except FileNotFoundError:
         print(f"{Fore.RED}Error: File '{filepath}' not found.{Style.RESET_ALL}")
+    except Exception as e:
+        print(f"{Fore.RED}Error: {str(e)}{Style.RESET_ALL}")
 
 
 # Configure with your API key from environment variable
@@ -48,7 +50,7 @@ Analyze this code for security vulnerabilities. Be concise.
 
 For each issue use this exact format:
 
-- --
+---
 SEVERITY: [CRITICAL/HIGH/MEDIUM/LOW]
 TYPE: [Vulnerability Name]
 DESCRIPTION: [One sentence explaining the issue]
@@ -59,3 +61,12 @@ FIX: [Code snippet only]
 Code:
 {code}
 """
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"{Fore.YELLOW}Usage: python scanner.py <filepath>{Style.RESET_ALL}")
+        print(f"Example: python scanner.py vulnerable.py")
+        sys.exit(1)
+    
+    filepath = sys.argv[1]
+    scan_file(filepath)
