@@ -43,9 +43,19 @@ def scan_file(filepath):
 api_key = os.getenv("GOOGLE_API_KEY")
 client = genai.Client(api_key=api_key)
 
+security_prompt = """
+Analyze this code for security vulnerabilities. Be concise.
 
-'''response = client.models.generate_content(
-    model='gemini-2.5-flash',
-    contents=security_prompt.format(code=vulnerable_code_3))
-print(add_colors_to_output(response.text))
-'''
+For each issue use this exact format:
+
+- --
+SEVERITY: [CRITICAL/HIGH/MEDIUM/LOW]
+TYPE: [Vulnerability Name]
+DESCRIPTION: [One sentence explaining the issue]
+IMPACT: [One sentence on potential damage]
+FIX: [Code snippet only]
+---
+
+Code:
+{code}
+"""
